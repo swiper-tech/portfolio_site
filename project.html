@@ -202,15 +202,14 @@
       margin-top: 1.5rem;
     }
     .gallery-viewer {
+      position: relative;
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 1.5rem;
-      background: rgba(20,20,30,0.45);
-      border-radius: 18px;
-      box-shadow: 0 4px 24px rgba(42,93,159,0.10);
-      padding: 1.5rem 2rem;
-      backdrop-filter: blur(6px);
-      border: 1.5px solid rgba(255,255,255,0.10);
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      border: none;
     }
     .gallery-main-img {
       max-width: 480px;
@@ -228,6 +227,9 @@
       transform: scale(1.02);
     }
     .gallery-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       background: rgba(20,20,30,0.7);
       color: #fff;
       border: none;
@@ -236,14 +238,25 @@
       height: 44px;
       font-size: 1.7rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, opacity 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 2;
+      opacity: 0.85;
+    }
+    #gallery-prev {
+      left: 10px;
+      right: auto;
+    }
+    #gallery-next {
+      right: 10px;
+      left: auto;
     }
     .gallery-btn:hover {
       background: #6a82fb;
       color: #fff;
+      opacity: 1;
     }
     @media (max-width: 700px) {
       .gallery-main-img {
@@ -332,10 +345,10 @@
         This section showcases my hands-on experience in developing smart systems using computer vision, IoT, and Arduino. Each project highlights my interest in technology, automation, and innovation
       </p>
       <div class="gallery-outer">
-        <div class="gallery-viewer">
-          <button class="gallery-btn" id="gallery-prev" aria-label="Previous image">&#8592;</button>
-          <img src="face_recog_0.png" alt="Face Recognition Gallery" class="gallery-main-img" id="gallery-main-img">
-          <button class="gallery-btn" id="gallery-next" aria-label="Next image">&#8594;</button>
+        <div class="gallery-viewer" style="position: relative; display: flex; justify-content: center; align-items: center; padding: 0; background: none; box-shadow: none; border: none;">
+          <button class="gallery-btn" id="gallery-prev" aria-label="Previous image" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 2; opacity: 0.85;">&#8592;</button>
+          <img src="face_recog_0.png" alt="Face Recognition Gallery" class="gallery-main-img" id="gallery-main-img" style="display: block;">
+          <button class="gallery-btn" id="gallery-next" aria-label="Next image" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 2; opacity: 0.85;">&#8594;</button>
         </div>
       </div>
       <div class="project">
