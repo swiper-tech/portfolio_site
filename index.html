@@ -132,6 +132,20 @@
   </style>
 </head>
 <body>
+  <nav id="main-nav">
+    <button id="menu-toggle" aria-label="Open menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div id="menu-overlay">
+      <ul>
+        <li><a href="#" class="menu-link">HOME</a></li>
+        <li><a href="#projects" class="menu-link">PROJECTS</a></li>
+        <li><a href="#about-contact" class="menu-link">ABOUT & CONTACT</a></li>
+      </ul>
+    </div>
+  </nav>
   <header>
     <div class="hero-content">
       <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Avatar" class="hero-avatar">
@@ -153,6 +167,7 @@
       <div id="projects-list"></div>
     </section>
   </main>
+  <div id="about-contact"></div>
   <script>
     // Portfolio data
     const portfolioData = {
@@ -213,7 +228,7 @@
     const latestWork = portfolioData.latestWork;
     document.getElementById('latest-work-content').innerHTML = `
       <div class="latest-work-card">
-        <img src="${latestWork.image}" alt="${latestWork.title}" class="latest-work-img" onerror="this.style.display='none'">
+        <img src="face_recog_0.png" alt="${latestWork.title}" class="latest-work-img main-latest-img" id="latest-work-img-clickable" style="cursor:zoom-in;display:block;margin:0 auto 1.2rem auto;max-width:100%;border-radius:18px;box-shadow:0 4px 24px rgba(0,0,0,0.18);">
         <div class="latest-work-info">
           <h3>${latestWork.title}</h3>
           <p>${latestWork.description}</p>
@@ -221,6 +236,33 @@
         </div>
       </div>
     `;
+
+    // Modal for full image view
+    if (!document.getElementById('img-modal')) {
+      const modalHtml = `
+        <div id="img-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
+          <span id="img-modal-close" style="position:absolute;top:32px;right:48px;font-size:2.5rem;color:#fff;cursor:pointer;font-weight:bold;z-index:10001;">&times;</span>
+          <img id="img-modal-img" src="face_recog_0.png" alt="Full Image" style="max-width:90vw;max-height:85vh;border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.45);display:block;margin:auto;">
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+    const img = document.getElementById('latest-work-img-clickable');
+    const modal = document.getElementById('img-modal');
+    const modalImg = document.getElementById('img-modal-img');
+    const modalClose = document.getElementById('img-modal-close');
+    img.onclick = function() {
+      modal.style.display = 'flex';
+      modalImg.src = img.src;
+    };
+    modalClose.onclick = function() {
+      modal.style.display = 'none';
+    };
+    modal.onclick = function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
 
     // Render What I Do
     const whatIDoContainer = document.getElementById('what-i-do-cards');
@@ -248,6 +290,24 @@
         <span>${project.description} <a href="${project.github}" target="_blank">View on GitHub</a></span>
       `;
       projectsList.appendChild(div);
+    });
+
+    // Menu toggle functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuOverlay = document.getElementById('menu-overlay');
+    let menuOpen = false;
+    menuToggle.onclick = function() {
+      menuOpen = !menuOpen;
+      menuOverlay.classList.toggle('open', menuOpen);
+      menuToggle.classList.toggle('open', menuOpen);
+    };
+    // Close menu when clicking a link
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.onclick = () => {
+        menuOpen = false;
+        menuOverlay.classList.remove('open');
+        menuToggle.classList.remove('open');
+      };
     });
   </script>
   <style>
@@ -366,6 +426,88 @@
         width: 100%;
         height: 160px;
         margin-bottom: 1rem;
+      }
+    }
+    #main-nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 10010;
+    }
+    #menu-toggle {
+      background: rgba(20,20,30,0.7);
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 0.7rem;
+      margin: 1.2rem 1.5rem 0 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 10011;
+    }
+    #menu-toggle .bar {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    #menu-toggle.open .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    #menu-toggle.open .bar:nth-child(2) {
+      opacity: 0;
+    }
+    #menu-toggle.open .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    #menu-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100vh;
+      background: rgba(20,20,30,0.97);
+      overflow: hidden;
+      transition: width 0.3s cubic-bezier(.4,2,.6,1);
+      z-index: 10010;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    #menu-overlay.open {
+      width: 220px;
+    }
+    #menu-overlay ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 2.5rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+    #menu-overlay li {
+      text-align: right;
+    }
+    #menu-overlay a {
+      color: #fff !important;
+      font-size: 1.25rem;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    #menu-overlay a:hover {
+      color: #6a82fb !important;
+    }
+    @media (max-width: 600px) {
+      #menu-overlay.open {
+        width: 100vw;
+      }
+      #menu-overlay ul {
+        margin: 0 1.5rem 0 0;
       }
     }
   </style>
