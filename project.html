@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Portfolio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://i.pinimg.com/originals/88/15/63/881563d6444b370fa4ceea0c3183bb4c.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+      opacity: 0;
+      transition: opacity 0.7s;
+    }
+    body.fade-in {
+      opacity: 1;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+    body.modal-open #main-nav,
+    body.modal-open #menu-overlay {
+      display: none !important;
+    }
+    main {
+      max-width: 750px;
+      margin: 2.5rem auto;
+      background: rgba(20,20,30,0.45);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(42,93,159,0.10);
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      color: #fff;
+    }
+    h2 {
+      color: #fff;
+      border-bottom: 2px solid #e9eafc;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    #projects h2 {
+      text-transform: uppercase;
+    }
+    .project {
+      margin-bottom: 1.5rem;
+      background: rgba(20,20,30,0.45);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 8px rgba(42,93,159,0.10);
+      backdrop-filter: blur(3px);
+      border: 1.2px solid rgba(255,255,255,0.06);
+      color: #fff;
+      text-align: justify;
+    }
+    .project-title {
+      font-weight: bold;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+    .project a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .project a:hover {
+      color: #6a82fb;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+      }
+    }
+    #main-nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 10010;
+    }
+    #menu-toggle {
+      background: rgba(20,20,30,0.7);
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 0.7rem;
+      margin: 1.2rem 1.5rem 0 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 10011;
+    }
+    #menu-toggle .bar {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    #menu-toggle.open .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    #menu-toggle.open .bar:nth-child(2) {
+      opacity: 0;
+    }
+    #menu-toggle.open .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    #menu-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100vh;
+      background: rgba(20,20,30,0.97);
+      overflow: hidden;
+      transition: width 0.3s cubic-bezier(.4,2,.6,1);
+      z-index: 10010;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    #menu-overlay.open {
+      width: 220px;
+    }
+    #menu-overlay ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 2.5rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+    #menu-overlay li {
+      text-align: right;
+    }
+    #menu-overlay a {
+      color: #fff !important;
+      font-size: 1.25rem;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    #menu-overlay a:hover {
+      color: #6a82fb !important;
+    }
+    @media (max-width: 600px) {
+      #menu-overlay.open {
+        width: 100vw;
+      }
+      #menu-overlay ul {
+        margin: 0 1.5rem 0 0;
+      }
+    }
+    .fade-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .fade-section.visible {
+      opacity: 1;
+      transform: none;
+    }
+    #projects > p {
+      text-align: justify;
+    }
+    .gallery-row {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .gallery-img {
+      max-width: 180px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      background: #222;
+      object-fit: cover;
+      transition: transform 0.2s;
+    }
+    .gallery-img:hover {
+      transform: scale(1.04);
+    }
+    /* Gallery styles */
+    .gallery-outer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      margin-top: 1.5rem;
+    }
+    .gallery-viewer {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: rgba(20,20,30,0.45);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(42,93,159,0.10);
+      padding: 1.5rem 2rem;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255,255,255,0.10);
+    }
+    .gallery-main-img {
+      max-width: 480px;
+      width: 80vw;
+      max-height: 340px;
+      border-radius: 14px;
+      box-shadow: 0 2px 18px rgba(0,0,0,0.18);
+      background: #222;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .gallery-main-img:hover {
+      box-shadow: 0 6px 32px rgba(0,0,0,0.28);
+      transform: scale(1.02);
+    }
+    .gallery-btn {
+      background: rgba(20,20,30,0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.7rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-btn:hover {
+      background: #6a82fb;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .gallery-main-img {
+        max-width: 98vw;
+        max-height: 220px;
+      }
+      .gallery-viewer {
+        padding: 1rem 0.5rem;
+      }
+    }
+    /* Modal styles for full image */
+    #gallery-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+    }
+    #gallery-modal-img {
+      max-width: 92vw;
+      max-height: 90vh;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      display: block;
+      margin: auto;
+    }
+    #gallery-modal-close {
+      position: absolute;
+      top: 32px;
+      right: 48px;
+      font-size: 2.5rem;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 10001;
+    }
+    .gallery-modal-btn {
+      position: absolute;
+      top: 50%;
+      right: 40px;
+      transform: translateY(-50%);
+      background: rgba(20,20,30,0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .gallery-modal-btn:hover {
+      background: #6a82fb;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <nav id="main-nav">
+    <button id="menu-toggle" aria-label="Open menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div id="menu-overlay">
+      <ul>
+        <li><a href="index.html" class="menu-link">HOME</a></li>
+        <li><a href="project.html" class="menu-link">PROJECTS</a></li>
+        <li><a href="about-contact.html" class="menu-link">ABOUT & CONTACT</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    <section id="projects">
+      <h2>My Projects</h2>
+      <p style="margin-bottom:2.2rem; font-size:1.08rem; color:#fff;">
+        This section showcases my hands-on experience in developing smart systems using computer vision, IoT, and Arduino. Each project highlights my interest in technology, automation, and innovation
+      </p>
+      <div class="gallery-outer">
+        <div class="gallery-viewer">
+          <button class="gallery-btn" id="gallery-prev" aria-label="Previous image">&#8592;</button>
+          <img src="face_recog_0.png" alt="Face Recognition Gallery" class="gallery-main-img" id="gallery-main-img">
+          <button class="gallery-btn" id="gallery-next" aria-label="Next image">&#8594;</button>
+        </div>
+      </div>
+      <div class="project">
+        <span class="project-title">WEB-BASED FACE RECOGNITION ATTENDANCE</span><br>
+        <span>A secure and automated solution using computer vision to log attendance based on facial recognition.</span>
+      </div>
+      <div class="project">
+        <span class="project-title">WEB-BASED FACE RECOGNITION WMS</span><br>
+        <span>A streamlined Warehouse Management System enhanced with face-based login for access control.</span>
+      </div>
+      <div class="project">
+        <span class="project-title">ARDUINO AUTO DRONE</span><br>
+        <span>A compact, custom-built quadcopter featuring GPS and remote control capabilities for aerial experimentation.</span>
+      </div>
+      <div class="project">
+        <span class="project-title">ARDUINO PET FEEDER</span><br>
+        <span>An automatic feeding system for pets, equipped with keypad input, ultrasonic sensor, and dispensing control.</span>
+      </div>
+      <div class="project">
+        <span class="project-title">ARDUINO WIFI-CONTROLLED SMART CAR</span><br>
+        <span>A mobile robot car that can be controlled wirelessly, combining IoT and robotics for remote navigation.</span>
+      </div>
+    </section>
+  </main>
+  <div id="gallery-modal">
+    <span id="gallery-modal-close">&times;</span>
+    <img id="gallery-modal-img" src="face_recog_0.png" alt="Full Gallery Image">
+    <button class="gallery-modal-btn" id="gallery-modal-next" aria-label="Next image">&#8594;</button>
+  </div>
+  <script>
+    // Menu toggle functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuOverlay = document.getElementById('menu-overlay');
+    let menuOpen = false;
+    menuToggle.onclick = function() {
+      menuOpen = !menuOpen;
+      menuOverlay.classList.toggle('open', menuOpen);
+      menuToggle.classList.toggle('open', menuOpen);
+    };
+    // Close menu when clicking a link
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.onclick = () => {
+        menuOpen = false;
+        menuOverlay.classList.remove('open');
+        menuToggle.classList.remove('open');
+      };
+    });
+    // Fade in body on load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('fade-in');
+    });
+    // Fade out on navigation
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href !== '#' && !href.startsWith('#')) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 400);
+        }
+      });
+    });
+    // Fade in sections on scroll
+    function fadeInOnScroll() {
+      document.querySelectorAll('section').forEach(section => {
+        if (!section.classList.contains('fade-section')) section.classList.add('fade-section');
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', fadeInOnScroll);
+    window.addEventListener('DOMContentLoaded', fadeInOnScroll);
+    // Add a close (X) button to the menu overlay if not present
+    if (!document.getElementById('menu-close')) {
+      const closeBtn = document.createElement('span');
+      closeBtn.id = 'menu-close';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.style.position = 'absolute';
+      closeBtn.style.top = '32px';
+      closeBtn.style.right = '48px';
+      closeBtn.style.fontSize = '2.5rem';
+      closeBtn.style.color = '#fff';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.style.fontWeight = 'bold';
+      closeBtn.style.zIndex = '10011';
+      document.getElementById('menu-overlay').appendChild(closeBtn);
+    }
+    // X button closes menu
+    document.getElementById('menu-close').onclick = function() {
+      menuOpen = false;
+      menuOverlay.classList.remove('open');
+      menuToggle.classList.remove('open');
+    };
+    // Gallery logic
+    const galleryImages = [
+      'face_recog_0.png',
+      'face_recog_1.png',
+      'face_recog_2.png'
+    ];
+    let galleryIndex = 0;
+    const galleryMainImg = document.getElementById('gallery-main-img');
+    const galleryPrev = document.getElementById('gallery-prev');
+    const galleryNext = document.getElementById('gallery-next');
+    const galleryModal = document.getElementById('gallery-modal');
+    const galleryModalImg = document.getElementById('gallery-modal-img');
+    const galleryModalClose = document.getElementById('gallery-modal-close');
+    const galleryModalNext = document.getElementById('gallery-modal-next');
+
+    function showGalleryImg(idx) {
+      galleryIndex = (idx + galleryImages.length) % galleryImages.length;
+      galleryMainImg.src = galleryImages[galleryIndex];
+      galleryModalImg.src = galleryImages[galleryIndex];
+    }
+    galleryPrev.onclick = () => showGalleryImg(galleryIndex - 1);
+    galleryNext.onclick = () => showGalleryImg(galleryIndex + 1);
+    galleryMainImg.onclick = () => {
+      galleryModal.style.display = 'flex';
+      document.body.classList.add('modal-open');
+    };
+    function closeGalleryModal() {
+      galleryModal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+    galleryModalClose.onclick = closeGalleryModal;
+    galleryModal.onclick = (e) => {
+      if (e.target === galleryModal) closeGalleryModal();
+    };
+    galleryModalNext.onclick = (e) => {
+      e.stopPropagation();
+      showGalleryImg(galleryIndex + 1);
+    };
+    // Initialize
+    showGalleryImg(0);
+  </script>
+</body>
+</html>

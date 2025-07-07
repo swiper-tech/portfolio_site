@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Contact | Portfolio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://i.pinimg.com/originals/88/15/63/881563d6444b370fa4ceea0c3183bb4c.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+      opacity: 0;
+      transition: opacity 0.7s;
+    }
+    body.fade-in {
+      opacity: 1;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+    main {
+      max-width: 750px;
+      margin: 2.5rem auto;
+      background: rgba(20,20,30,0.45);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(42,93,159,0.10);
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      color: #fff;
+    }
+    h2 {
+      color: #fff;
+      border-bottom: 2px solid #e9eafc;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    #about h2, #internships h2 {
+      text-transform: uppercase;
+    }
+    .contact-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .contact-link:hover {
+      color: #6a82fb;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+      }
+    }
+    /* Menu styles (copied from other pages) */
+    #main-nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 10010;
+    }
+    #menu-toggle {
+      background: rgba(20,20,30,0.7);
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 0.7rem;
+      margin: 1.2rem 1.5rem 0 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 10011;
+    }
+    #menu-toggle .bar {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    #menu-toggle.open .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    #menu-toggle.open .bar:nth-child(2) {
+      opacity: 0;
+    }
+    #menu-toggle.open .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    #menu-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100vh;
+      background: rgba(20,20,30,0.97);
+      overflow: hidden;
+      transition: width 0.3s cubic-bezier(.4,2,.6,1);
+      z-index: 10010;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    #menu-overlay.open {
+      width: 220px;
+    }
+    #menu-overlay ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 2.5rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+    #menu-overlay li {
+      text-align: right;
+    }
+    #menu-overlay a {
+      color: #fff !important;
+      font-size: 1.25rem;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    #menu-overlay a:hover {
+      color: #6a82fb !important;
+    }
+    @media (max-width: 600px) {
+      #menu-overlay.open {
+        width: 100vw;
+      }
+      #menu-overlay ul {
+        margin: 0 1.5rem 0 0;
+      }
+    }
+    .fade-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .fade-section.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .about-text, .edu-block, .intern-block {
+      text-align: justify;
+      margin-bottom: 1.5rem;
+      font-size: 1.08rem;
+    }
+    .edu-block, .intern-block {
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.2rem;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <nav id="main-nav">
+    <button id="menu-toggle" aria-label="Open menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div id="menu-overlay">
+      <ul>
+        <li><a href="index.html" class="menu-link">HOME</a></li>
+        <li><a href="project.html" class="menu-link">PROJECTS</a></li>
+        <li><a href="about-contact.html" class="menu-link">ABOUT & CONTACT</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    <section id="about" class="fade-section">
+      <h2>About Me</h2>
+      <p class="about-text">
+        I'm a fresh graduate in Information Technology with a strong interest in embedded systems, computer vision, networking, and cloud technologies. I enjoy working on practical tech solutions that combine hardware and software, and I have hands-on experience in developing systems that enhance automation, connectivity, and efficiency. I'm eager to grow professionally, continue learning, and contribute to forward-thinking IT environments.
+      </p>
+    </section>
+    <section id="education" class="fade-section">
+      <h2>Education</h2>
+      <div class="edu-block">
+        <strong>TRESTON INTERNATIONAL COLLEGE</strong><br>
+        BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY
+      </div>
+    </section>
+    <section id="internships" class="fade-section">
+      <h2>Internships</h2>
+      <div class="intern-block">
+        <strong>RIPPER PREMIUM BYTEZONE LOUNGE</strong><br>
+        TAGUIG, PHILIPPINES
+      </div>
+      <div class="intern-block">
+        <strong>CARDIO FLOW DESIGN INC.</strong><br>
+        TOKYO, JAPAN
+      </div>
+    </section>
+  </main>
+  <script>
+    // Menu toggle functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuOverlay = document.getElementById('menu-overlay');
+    let menuOpen = false;
+    menuToggle.onclick = function() {
+      menuOpen = !menuOpen;
+      menuOverlay.classList.toggle('open', menuOpen);
+      menuToggle.classList.toggle('open', menuOpen);
+    };
+    // Close menu when clicking a link
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.onclick = () => {
+        menuOpen = false;
+        menuOverlay.classList.remove('open');
+        menuToggle.classList.remove('open');
+      };
+    });
+    // Fade in body on load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('fade-in');
+    });
+    // Fade out on navigation
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href !== '#' && !href.startsWith('#')) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 400);
+        }
+      });
+    });
+    // Fade in sections on scroll
+    function fadeInOnScroll() {
+      document.querySelectorAll('section').forEach(section => {
+        if (!section.classList.contains('fade-section')) section.classList.add('fade-section');
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', fadeInOnScroll);
+    window.addEventListener('DOMContentLoaded', fadeInOnScroll);
+    // Add a close (X) button to the menu overlay if not present
+    if (!document.getElementById('menu-close')) {
+      const closeBtn = document.createElement('span');
+      closeBtn.id = 'menu-close';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.style.position = 'absolute';
+      closeBtn.style.top = '32px';
+      closeBtn.style.right = '48px';
+      closeBtn.style.fontSize = '2.5rem';
+      closeBtn.style.color = '#fff';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.style.fontWeight = 'bold';
+      closeBtn.style.zIndex = '10011';
+      document.getElementById('menu-overlay').appendChild(closeBtn);
+    }
+    // X button closes menu
+    document.getElementById('menu-close').onclick = function() {
+      menuOpen = false;
+      menuOverlay.classList.remove('open');
+      menuToggle.classList.remove('open');
+    };
+  </script>
+</body>
+</html>
