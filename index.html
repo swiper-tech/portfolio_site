@@ -1,12 +1,154 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My First GitHub Page</title>
-  </head>
-  <body>
-    <h1>Hello from GitHub Pages!</h1>
-    <p>This is my index.html file.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name | Portfolio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #f0f4f8 0%, #e9eafc 100%);
+      color: #222;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(120deg, #2a5d9f 0%, #6a82fb 100%);
+      color: #fff;
+      padding: 3rem 0 2rem 0;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(42,93,159,0.08);
+    }
+    header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.8rem;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+    header p {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #e0e7ff;
+      font-weight: 400;
+    }
+    .hero-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #fff;
+      box-shadow: 0 2px 12px rgba(42,93,159,0.12);
+      margin-bottom: 1.2rem;
+      background: #fff;
+    }
+    main {
+      max-width: 750px;
+      margin: 2.5rem auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(42,93,159,0.07);
+      padding: 2.5rem 2rem;
+    }
+    section {
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      color: #2a5d9f;
+      border-bottom: 2px solid #e9eafc;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    .project {
+      margin-bottom: 1.5rem;
+      background: #f5f8ff;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 8px rgba(42,93,159,0.04);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .project:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 6px 18px rgba(42,93,159,0.10);
+    }
+    .project-title {
+      font-weight: bold;
+      color: #2a5d9f;
+      font-size: 1.1rem;
+    }
+    .project a {
+      color: #6a82fb;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .project a:hover {
+      color: #2a5d9f;
+      text-decoration: underline;
+    }
+    .contact-link {
+      color: #6a82fb;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .contact-link:hover {
+      color: #2a5d9f;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      .hero-avatar {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Avatar" class="hero-avatar">
+    <h1>Your Name</h1>
+    <p>Web Developer | Designer | Creator</p>
+  </header>
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Hi! I'm Your Name, a passionate web developer with a love for building clean and user-friendly websites. I enjoy learning new technologies and turning ideas into reality.
+      </p>
+    </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project">
+        <span class="project-title">Project One</span><br>
+        <span>A brief description of your project. <a href="#" target="_blank">View on GitHub</a></span>
+      </div>
+      <div class="project">
+        <span class="project-title">Project Two</span><br>
+        <span>A brief description of your project. <a href="#" target="_blank">View on GitHub</a></span>
+      </div>
+      <!-- Add more projects as needed -->
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        Feel free to reach out via <a class="contact-link" href="mailto:your.email@example.com">email</a> or connect with me on <a class="contact-link" href="https://github.com/your-github-username" target="_blank">GitHub</a>.
+      </p>
+    </section>
+  </main>
+</body>
 </html>
 
 <-t rebuild -->
