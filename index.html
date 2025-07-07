@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Name | Portfolio</title>
@@ -14,9 +14,22 @@
       position: relative;
       color: #fff;
       min-height: 100vh;
+      scroll-behavior: smooth;
+      opacity: 0;
+      transition: opacity 0.7s;
     }
     body::before {
       display: none;
+    }
+    body.fade-in {
+      opacity: 1;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+    body.modal-open #main-nav,
+    body.modal-open #menu-overlay {
+      display: none !important;
     }
     header, main {
       position: relative;
@@ -72,6 +85,9 @@
       margin-bottom: 1.2rem;
       font-size: 1.6rem;
       font-weight: 600;
+    }
+    #latest-work h2, #what-i-do h2 {
+      text-transform: uppercase;
     }
     ul {
       padding-left: 1.2rem;
@@ -129,9 +145,18 @@
     body, main, .latest-work-card, .what-i-do-card, .project, h1, h2, h3, h4, h5, h6, p, a, span, .project-title, .what-i-do-subtitle, .project-link, .contact-link {
       color: #fff !important;
     }
+    .fade-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .fade-section.visible {
+      opacity: 1;
+      transform: none;
+    }
   </style>
-</head>
-<body>
+  </head>
+  <body>
   <nav id="main-nav">
     <button id="menu-toggle" aria-label="Open menu">
       <span class="bar"></span>
@@ -140,9 +165,9 @@
     </button>
     <div id="menu-overlay">
       <ul>
-        <li><a href="#" class="menu-link">HOME</a></li>
-        <li><a href="#projects" class="menu-link">PROJECTS</a></li>
-        <li><a href="#about-contact" class="menu-link">ABOUT & CONTACT</a></li>
+        <li><a href="index.html" class="menu-link">HOME</a></li>
+        <li><a href="project.html" class="menu-link">PROJECTS</a></li>
+        <li><a href="about-contact.html" class="menu-link">ABOUT & CONTACT</a></li>
       </ul>
     </div>
   </nav>
@@ -155,16 +180,12 @@
   </header>
   <main>
     <section id="latest-work">
-      <h2>My Latest Work</h2>
+      <h2>MY LATEST WORK</h2>
       <div id="latest-work-content"></div>
     </section>
     <section id="what-i-do">
-      <h2>What I Do</h2>
+      <h2>WHAT I DO</h2>
       <div id="what-i-do-cards" class="cards-container"></div>
-    </section>
-    <section id="projects">
-      <h2>Projects</h2>
-      <div id="projects-list"></div>
     </section>
   </main>
   <div id="about-contact"></div>
@@ -254,13 +275,16 @@
     img.onclick = function() {
       modal.style.display = 'flex';
       modalImg.src = img.src;
+      document.body.classList.add('modal-open');
     };
-    modalClose.onclick = function() {
+    function closeImgModal() {
       modal.style.display = 'none';
-    };
+      document.body.classList.remove('modal-open');
+    }
+    modalClose.onclick = closeImgModal;
     modal.onclick = function(e) {
       if (e.target === modal) {
-        modal.style.display = 'none';
+        closeImgModal();
       }
     };
 
@@ -280,18 +304,6 @@
       whatIDoContainer.appendChild(card);
     });
 
-    // Render Projects
-    const projectsList = document.getElementById('projects-list');
-    portfolioData.projects.forEach(project => {
-      const div = document.createElement('div');
-      div.className = 'project';
-      div.innerHTML = `
-        <span class="project-title">${project.title}</span><br>
-        <span>${project.description} <a href="${project.github}" target="_blank">View on GitHub</a></span>
-      `;
-      projectsList.appendChild(div);
-    });
-
     // Menu toggle functionality
     const menuToggle = document.getElementById('menu-toggle');
     const menuOverlay = document.getElementById('menu-overlay');
@@ -309,6 +321,61 @@
         menuToggle.classList.remove('open');
       };
     });
+
+    // Fade in body on load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('fade-in');
+    });
+
+    // Fade out on navigation
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href !== '#' && !href.startsWith('#')) {
+          e.preventDefault();
+          document.body.classList.remove('fade-in');
+          document.body.classList.add('fade-out');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 400);
+        }
+      });
+    });
+
+    // Fade in sections on scroll
+    function fadeInOnScroll() {
+      document.querySelectorAll('section').forEach(section => {
+        if (!section.classList.contains('fade-section')) section.classList.add('fade-section');
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', fadeInOnScroll);
+    window.addEventListener('DOMContentLoaded', fadeInOnScroll);
+
+    // Add a close (X) button to the menu overlay if not present
+    if (!document.getElementById('menu-close')) {
+      const closeBtn = document.createElement('span');
+      closeBtn.id = 'menu-close';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.style.position = 'absolute';
+      closeBtn.style.top = '32px';
+      closeBtn.style.right = '48px';
+      closeBtn.style.fontSize = '2.5rem';
+      closeBtn.style.color = '#fff';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.style.fontWeight = 'bold';
+      closeBtn.style.zIndex = '10011';
+      document.getElementById('menu-overlay').appendChild(closeBtn);
+    }
+    // X button closes menu
+    document.getElementById('menu-close').onclick = function() {
+      menuOpen = false;
+      menuOverlay.classList.remove('open');
+      menuToggle.classList.remove('open');
+    };
   </script>
   <style>
     /* Additional styles for new layout */
@@ -511,5 +578,5 @@
       }
     }
   </style>
-</body>
+  </body>
 </html>
